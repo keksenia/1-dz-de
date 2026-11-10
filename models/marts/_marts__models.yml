@@ -1,0 +1,65 @@
+version: 2
+
+models:
+
+  - name: dim_customers
+    description: "Одна строка на зарегистрированного клиента, включая тех, у кого пока нет покупок."
+    columns:
+      - name: customer_id
+        description: "Номер клиента."
+        data_tests: [unique, not_null]
+      - name: registered_at
+        description: "Дата и время регистрации клиента."
+      - name: registration_date
+        description: "Дата регистрации клиента без времени."
+      - name: city
+        description: "Город клиента."
+      - name: acquisition_channel
+        description: "Канал привлечения клиента."
+      - name: first_confirmed_order_id
+        description: "Номер первого подтверждённого заказа по времени оплаты. При одинаковом времени выбирается меньший номер."
+      - name: first_confirmed_at
+        description: "Время первой успешной оплаты первого подтверждённого заказа. У клиента без покупок поле пустое."
+      - name: confirmed_orders_count
+        description: "Число подтверждённых заказов клиента."
+        data_tests: [not_null, non_negative]
+      - name: confirmed_revenue
+        description: "Сумма подтверждённых заказов клиента после скидок в рублях."
+      - name: is_buyer
+        description: "Признак того, что у клиента есть хотя бы один подтверждённый заказ."
+        data_tests: [not_null]
+
+  - name: dim_products
+    description: "Одна строка на товар. Содержит бренд и названия категорий."
+    columns:
+      - name: product_id
+        description: "Номер товара."
+        data_tests: [unique, not_null]
+      - name: product_name
+        description: "Название товара."
+      - name: brand
+        description: "Бренд товара."
+      - name: category_name
+        description: "Категория, к которой непосредственно отнесён товар."
+      - name: parent_category_name
+        description: "Название непосредственного родителя. Для товара в корневой категории поле пустое."
+      - name: root_category_name
+        description: "Название верхней категории дерева."
+        data_tests: [not_null]
+
+  - name: dim_dates
+    description: "Одна строка на календарный день от первого до последнего заказа включительно."
+    columns:
+      - name: order_date
+        description: "Календарная дата."
+        data_tests: [unique, not_null]
+      - name: year
+        description: "Календарный год."
+      - name: quarter
+        description: "Номер квартала от 1 до 4."
+      - name: month
+        description: "Номер месяца от 1 до 12."
+      - name: day_of_week
+        description: "Номер дня недели по ISO. Понедельник имеет номер 1, воскресенье — 7."
+      - name: is_weekend
+        description: "Признак субботы или воскресенья."
