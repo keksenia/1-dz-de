@@ -1,7 +1,6 @@
 version: 2
 
 models:
-
   - name: fct_orders
     description: "Одна строка на нетестовый заказ с итогами по оплатам и возвратам."
     columns:
@@ -166,3 +165,33 @@ models:
         description: "Номер дня недели по ISO. Понедельник имеет номер 1, воскресенье — 7."
       - name: is_weekend
         description: "Признак субботы или воскресенья."
+
+  - name: fct_brand_returns
+    description: >
+      Одна строка на бренд и дату оформления заказа. В знаменателе уникальные
+      подтверждённые и возвращённые заказы с товарами этого бренда.
+      Признак возврата относится ко всему заказу.
+    columns:
+      - name: brand_date_id
+        description: "Ключ из даты оформления заказа и названия бренда."
+        data_tests: [unique, not_null]
+      - name: order_date
+        description: "Дата оформления заказа."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: order_date
+      - name: brand
+        description: "Бренд товаров в заказах."
+        data_tests: [not_null]
+      - name: orders_count
+        description: "Число разных подтверждённых и возвращённых заказов с товарами бренда."
+        data_tests: [not_null, non_negative]
+      - name: returned_orders_count
+        description: "Число разных заказов со статусом returned с товарами бренда."
+        data_tests: [not_null, non_negative]
+      - name: return_rate
+        description: "Доля возвращённых заказов от 0 до 1."
+        data_tests: [not_null, non_negative]
