@@ -15,6 +15,10 @@ erDiagram
     dim_products ||--o{ fct_order_items : product_id
     fct_orders ||--o{ fct_order_items : order_id
     dim_dates ||--o{ fct_brand_returns : order_date
+
+    classDef default fill:#fff0f5,stroke:#b66a87,color:#432334
+    classDef fact fill:#f8d7e5,stroke:#a85375,color:#432334
+    class fct_orders,fct_order_items,fct_brand_returns fact
 ```
 
 | Витрина | Зернистость | Для чего нужна |
