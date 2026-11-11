@@ -4,4 +4,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir "dbt-core==1.10.13" "dbt-postgres==1.9.1"
 WORKDIR /project
+COPY dbt_project.yml packages.yml package-lock.yml ./
+RUN dbt deps
 ENTRYPOINT ["dbt"]

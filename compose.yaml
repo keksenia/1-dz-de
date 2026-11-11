@@ -56,7 +56,6 @@ services:
 
   dbt:
     build: .
-    image: dbt-shop:1.10
     profiles: ["tools"]
     depends_on:
       greenplum:
@@ -69,6 +68,7 @@ services:
       DBT_VERSION_CHECK: "false"
     volumes:
       - .:/project
+      - /project/dbt_packages
     ports:
       - "127.0.0.1:${DOCS_PORT:-8080}:8080"
 
